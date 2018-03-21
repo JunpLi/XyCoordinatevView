@@ -1,0 +1,12 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <demo.com.xycoordinatevvew.XYview
+        android:id="@+id/xy_view"
+        android:layout_width="310dp"
+        android:layout_height="300dp" />
+</LinearLayout>
