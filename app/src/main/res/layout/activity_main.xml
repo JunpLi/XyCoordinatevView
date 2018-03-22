@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
 
-    <demo.com.xycoordinatevvew.XYview
+    <demo.com.xycoordinatevvew.view.XyView
         android:id="@+id/xy_view"
         android:layout_width="310dp"
         android:layout_height="300dp" />

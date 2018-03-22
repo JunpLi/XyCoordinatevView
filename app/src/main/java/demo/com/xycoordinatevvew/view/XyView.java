@@ -1,4 +1,4 @@
-package demo.com.xycoordinatevvew;
+package demo.com.xycoordinatevvew.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,13 +9,20 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 
+import java.util.List;
+
+import demo.com.xycoordinatevvew.bean.XyBean;
+
 
 /**
  * Created by ljp on 2017/3/15
  */
-public class XYview extends View {
+public class XyView extends View {
 
-   
+    private List<XyBean> xyBeansList;
+
+    private XyBean bean, bean1;
+
     /**
      * 控件的中心点
      */
@@ -27,11 +34,11 @@ public class XYview extends View {
      */
     Point po = new Point();
 
-    public XYview(Context context) {
+    public XyView(Context context) {
         super(context, null);
     }
 
-    public XYview(Context context, AttributeSet attrs) {
+    public XyView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -89,38 +96,52 @@ public class XYview extends View {
             // 然后显示坐标
             canvas.drawText(centerString, 2, 2*centerY - 15, paint);
         }
-        
-      
 
-        if (canvas != null) {
+
+
+        if (canvas != null && xyBeansList != null&&xyBeansList.size()>0) {
           
-        	Point p_1 = new Point(10,20);
-    		Point p_2 = new Point(20,170);
-    		Point p_3 = new Point(30,40);
+        //	Point p_1 = new Point(10,20);
+    	//	Point p_2 = new Point(20,170);
+    	//	Point p_3 = new Point(30,40);
             	
     		int size=2*centerX-15;
     		float n=size/40;
-        	canvas.drawLine(5+n*p_1.x,2*po.y-40-p_1.y,5+n*p_2.x,2*po.y-40-p_2.y, paint);//画出点 1和 点2 两点之间的连线
-        	
-        	canvas.drawLine(5+n*p_2.x,2*po.y-40-p_2.y,5+n*p_3.x,2*po.y-40-p_3.y, paint);//画出点 2和 点3 两点之间的连线
-        	
-        	/**
-        	 * 
-        	 * 
-        	 * 上面是3个点连接，为了方便我只设置了3个点的连接，加入你有有很多点要连接的时候，可以有循环，canvas.drawLine不就是前面一个连接后面的一个很简单
-        	 * 
-        	 * 
-        	 * */
-        	
-        	
-    		
-            	   //显示该黑点
-            	   canvas.drawCircle(5+n*p_1.x, 2*po.y-40-p_1.y, 2, paint);
-                   canvas.drawCircle(5+n*p_2.x, 2*po.y-40-p_2.y, 2, paint);
-                   canvas.drawCircle(5+n*p_3.x, 2*po.y-40-p_3.y, 2, paint);
-        	
-        	
-           // canvas.drawPoint(pa.x+po.x, po.y-pa.y, paint);
+        //	canvas.drawLine(5+n*p_1.x,2*po.y-40-p_1.y,5+n*p_2.x,2*po.y-40-p_2.y, paint);//画出点 1和 点2 两点之间的连线
+       // 	canvas.drawLine(5+n*p_2.x,2*po.y-40-p_2.y,5+n*p_3.x,2*po.y-40-p_3.y, paint);//画出点 2和 点3 两点之间的连线
+
+
+            /**
+             * 上面是3个点连接，为了方便我只设置了3个点的连接，加入你有有很多点要连接的时候，可以有循环，canvas.drawLine不就是前面一个连接后面的一个很简单
+             * */
+
+            //显示该黑点
+       //     canvas.drawCircle(5+n*p_1.x, 2*po.y-40-p_1.y, 2, paint);
+       //     canvas.drawCircle(5+n*p_2.x, 2*po.y-40-p_2.y, 2, paint);
+       //     canvas.drawCircle(5+n*p_3.x, 2*po.y-40-p_3.y, 2, paint);
+            // canvas.drawPoint(pa.x+po.x, po.y-pa.y, paint);
+
+            for(int i =0;i<xyBeansList.size()-1;i++){
+                bean = xyBeansList.get(i);// 得到第一组第一个数据
+                bean1 = xyBeansList.get(i + 1);// 得到第一组第二个数据
+                Point p_1 = new Point(bean.getX(), bean.getY());
+                Point p_2 = new Point(bean1.getX(), bean1.getY());
+                // po.y是控件高的半，由于画的时候 canvas.drawLine(5, 10, 5, 2*centerY-40,
+                // paint);
+                // 向上面40处画的，所所以要减去40，系统默认左上交才是（0,0）坐标，所以用减号
+                canvas.drawLine(5 + n * p_1.x, 2 * po.y - 40 - p_1.y, 5 + n
+                        * p_2.x, 2 * po.y - 40 - p_2.y, paint);// 画出两点之间的连线
+            }
+
+
+            //显示该黑点
+            for(int i =0;i<xyBeansList.size();i++){
+                bean = xyBeansList.get(i);// 得到第一组第一个数据
+                Point point = new Point(bean.getX(), bean.getY());
+                canvas.drawCircle(5+n*point.x, 2*po.y-40-point.y, 2, paint);
+            }
+
+
         }
 
     }
@@ -141,5 +162,11 @@ public class XYview extends View {
         // 绘制这个多边形
         canvas.drawPath(path, paint);
     }
-    
+
+    /**
+     * 得到一个含有40个点的bean对象集合
+     * */
+    public void setBeanListToXYview(List<XyBean> list) {
+        this.xyBeansList = list;
+    }
 }
